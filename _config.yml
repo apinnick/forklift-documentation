@@ -62,6 +62,10 @@ asciidoctor:
   - ocp-short=OKD
   - operator=forklift-operator
   - namespace=konveyor-forklift
+  - rhv-full=oVirt
+  - rhv-short=oVirt
+  - a-rhv=an oVirt
+  - manager=Engine
   safe: unsafe
 
 exclude:

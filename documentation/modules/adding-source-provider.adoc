@@ -3,14 +3,23 @@
 // * documentation/doc-Migration_Toolkit_for_Virtualization/master.adoc
 
 [id="adding-source-provider_{context}"]
+ifdef::vmware[]
 = Adding a VMware source provider
 
 You can add a VMware source provider by using the {project-short} web console.
+endif::[]
+ifdef::rhv[]
+= Adding {a-rhv} source provider
+
+You can add {a-rhv} source provider by using the {project-short} web console.
+endif::[]
 
 .Procedure
 
 . In the {project-short} web console, click *Providers*.
 . Click *Add provider*.
+
+ifdef::vmware[]
 . Select *VMware* from the *Type* list.
 . Fill in the following fields:
 
@@ -30,6 +39,17 @@ $ openssl s_client \
     | cut -d '=' -f 2
 ----
 <1> Specify the vCenter host name.
+endif::[]
+ifdef::rhv[]
+. Select *Red Hat Virtualization* from the *Type* list.
+. Fill in the following fields:
+
+* *Name*: Name to display in the list of providers
+* *Hostname or IP address*: {manager} host name or IP address
+* *Username*: {manager} user name
+* *Password*: {manager} password
+* *CA certificate*: `/etc/pki/ovirt-engine/apache-ca.pem` file on the {manager} machine
+endif::[]
 
 . Click *Add* to add and save the provider.
 +

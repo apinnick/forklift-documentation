@@ -12,22 +12,26 @@
 :project-full: Migration Toolkit for Virtualization
 :project-short: MTV
 :project-first: {project-full} ({project-short})
-:project-version: 2.0
-:project-z-version: 2.0.0
+:project-version: 2.1
+:project-z-version: 2.1.0
 :the: The
 :the-lc: the
 :virt: OpenShift Virtualization
+:rhv-full: Red Hat Virtualization
+:rhv-short: RHV
+:a-rhv: a {rhv-full}
 :must-gather: registry.redhat.io/rhmtv/rhmtv-must-gather:v{project-z-version}
 :a-virt: an {virt}
+:manager: Manager
 
 // doc metadata
 :icons: font
 :build: downstream
 :toc: macro
 :experimental:
-:keywords: migration, VMware, OpenShift Virtualization, KubeVirt, migrating, virtual machines, OpenShift
+:keywords: migration, VMware, OpenShift Virtualization, KubeVirt, migrating, virtual machines, OpenShift, Red Hat Virtualization, RHV
 :imagesdir: modules/images
-:abstract: {The} {project-first} enables you to migrate virtual machines from VMware vSphere to {virt} running on {ocp}.
+:abstract: {The} {project-first} enables you to migrate virtual machines from VMware vSphere or {rhv-full} to {virt} running on {ocp}.
 :rn-title: Release notes
 :user-guide-title: Installing and using {the-lc} {project-full}
-:subtitle: Migrating from VMware to Red Hat {virt}
+:subtitle: Migrating from VMware vSphere or {rhv-full} to Red Hat {virt}

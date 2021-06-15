@@ -7,8 +7,8 @@
 
 You can migrate virtual machines (VMs) from the command line (CLI) by creating the following custom resources (CRs):
 
-* `Secret` contains the VMware provider credentials.
-* `Provider` contains the VMware provider details.
+* `Secret` contains the source provider credentials.
+* `Provider` contains the source provider details.
 * `Host` contains the VMware host details.
 * `NetworkMap` maps the source and destination networks.
 * `StorageMap` maps the source and destination storage.
@@ -27,13 +27,16 @@ The API uses the term `destination` to refer to the target environment.
 * You must be logged in as a user with `cluster-admin` privileges.
 * The link:https://docs.openshift.com/container-platform/{ocp-version}/cli_reference/openshift_cli/getting-started-cli.html[OpenShift CLI] must be installed.
 * If you are mapping more than one source and destination network, you must create a link:https://docs.openshift.com/container-platform/{ocp-version}/virt/virtual_machines/vm_networking/virt-attaching-vm-multiple-networks.html#virt-creating-network-attachment-definition[network attachment definition] for each additional destination network.
-* The VDDK image must be added to the `v2v-vmware` config map.
-* If you are performing a warm migration, you must enable link:https://kb.vmware.com/s/article/1020128[changed block tracking (CBT)] on the VMs and on the VM disks.
-* If you are performing more than 10 concurrent migrations from a single ESXi host, you must increase the NFC service memory of the host.
+* If your source provider is VMware vSphere, the following additional prerequisites apply:
+** The VDDK image must be added to the `v2v-vmware` config map.
+** For warm migration, you must enable link:https://kb.vmware.com/s/article/1020128[changed block tracking (CBT)] on the VMs and on the VM disks.
+** If you are performing more than 10 concurrent migrations from a single ESXi host, you must increase the NFC service memory of the host.
 
 .Procedure
 
-. Obtain the SHA-1 fingerprint of the vCenter host:
+. If the source provider is VMware vSphere:
+
+.. Obtain the SHA-1 fingerprint of the vCenter host:
 +
 [source,terminal]
 ----
@@ -52,7 +55,7 @@ $ openssl s_client \
 01:23:45:67:89:AB:CD:EF:01:23:45:67:89:AB:CD:EF:01:23:45:67
 ----
 
-. Create a `Secret` CR manifest for the VMware provider:
+.. Create a `Secret` CR manifest for the VMware provider:
 +
 [source,yaml,subs="attributes+"]
 ----
@@ -73,7 +76,7 @@ EOF
 <2> Specify the vCenter password.
 <3> Specify the SHA-1 fingerprint of the vCenter host.
 
-. Create a `Provider` CR manifest for the VMware provider:
+.. Create a `Provider` CR manifest for the VMware provider:
 +
 [source,yaml,subs="attributes+"]
 ----
@@ -94,7 +97,7 @@ EOF
 <1> Specify the vSphere API end point, for example, `https://<vcenter.host.com>/sdk`.
 <2> Specify the name of the VMware `Secret` CR.
 
-. Create a `Host` CR manifest for the VMware host:
+.. Create a `Host` CR manifest for the VMware host:
 +
 [source,yaml,subs="attributes+"]
 ----
@@ -115,6 +118,10 @@ EOF
 <1> Specify the name of the VMware `Provider` CR.
 <2> Specify the _managed object reference_ of the VMware host.
 <3> Specify the IP address of the VMware migration network.
+
+. If your source provider is {rhv-full}:
+
+.. TBD
 
 . Create a `NetworkMap` CR manifest to map the source and destination networks:
 +
@@ -246,7 +253,7 @@ EOF
 ----
 <1> Specify the name of the `Migration` CR.
 <2> Specify the name of the `Plan` CR that you are running. The `Migration` CR creates a `VirtualMachineImport` CR for each VM that is migrated.
-<3> Optional. Specify a cutover time according to the ISO 8601 format with the UTC time offset, for example, `2021-04-04T01:23:45.678+09:00`.
+<3> Optional: Specify a cutover time according to the ISO 8601 format with the UTC time offset, for example, `2021-04-04T01:23:45.678+09:00`.
 
 . View the `VirtualMachineImport` pods to monitor the progress of the migration:
 +
